@@ -30,3 +30,10 @@ TEST_F(gllTest, lat) {
 TEST_F(gllTest, lon) {
     EXPECT_FLOAT_EQ(o.lon, 4.37596798);
 }
+
+TEST_F(gllTest, time) {
+    EXPECT_EQ((int)(o.t.hours().count()), 18) << "hours wrong";
+    EXPECT_EQ((int)(o.t.minutes().count()), 54) << "minutes wrong";
+    EXPECT_EQ((int)(o.t.seconds().count()), 27) << "seconds wrong";
+    EXPECT_EQ((int)(o.t.subseconds().count()), 150) << "subseconds wrong";
+}
