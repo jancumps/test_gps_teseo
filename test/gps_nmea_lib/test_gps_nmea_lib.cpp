@@ -1,31 +1,32 @@
 #include <gtest/gtest.h>
+import nmea;
 
-import test_module;
-
-class TestClassTest : public testing::Test {
+class gllTest : public testing::Test {
 protected:
-    TestClassTest() {}
+    gllTest() : parse_ok(false) {}
     void SetUp() override {
-        o.set_match_string("match");
+        parse_ok = nmea::gll::from_data("$GPGLL,5051.83778,N,00422.55809,S,185427.150,A,N*4F", o);
     }
-   
-    // ~TestClassTest() override = default;
-    test_module::TestClass o;
+    nmea::gll o;
+    bool parse_ok;
 };
 
-
-TEST(string_view, match) {
-    test_module::TestClass o;
-    o.set_match_string("match");
-    EXPECT_TRUE(o.match("match")); // should pass
+TEST_F(gllTest, parse) {
+    EXPECT_TRUE(parse_ok) << "parse failed";
 }
 
-TEST(string_view, missmatch) {
-    test_module::TestClass o;
-    o.set_match_string("match");
-    EXPECT_FALSE(o.match("mismatch")); // should pass
+TEST_F(gllTest, valid) {
+    EXPECT_TRUE(o.valid);
 }
 
-TEST_F(TestClassTest, match) {
-    EXPECT_TRUE(o.match("match")); // should pass
+TEST_F(gllTest, source) {
+    EXPECT_TRUE(o.source == nmea::talker_id::gps);
+}
+
+TEST_F(gllTest, lat) {
+    EXPECT_FLOAT_EQ(o.lat, 50.8639641);
+}
+
+TEST_F(gllTest, lon) {
+    EXPECT_FLOAT_EQ(o.lon, 4.37596798);
 }
