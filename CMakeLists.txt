@@ -6,6 +6,7 @@ project(test_class_module C CXX ASM)
 set(CMAKE_CXX_STANDARD 26)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fmodules-ts")
+set(CMAKE_EXE_LINKER_FLAGS "-Wl,-allow-multiple-definition")
 
 include(FetchContent)
 FetchContent_Declare(
@@ -20,24 +21,23 @@ enable_testing()
 
 add_executable(${CMAKE_PROJECT_NAME})
 target_sources(${CMAKE_PROJECT_NAME}
-PUBLIC
+        PUBLIC
         # ${CMAKE_CURRENT_SOURCE_DIR}/source/gps_teseo_lib/teseo/teseo.cpp
-        # ${CMAKE_CURRENT_SOURCE_DIR}/source/gps_nmea_lib/nmea/nmea.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/source/gps_nmea_lib/nmea/nmea.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/test/gps_nmea_lib/test_gps_nmea_lib.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/test/gps_nmea_lib/test_module_impl.cpp
 )
 target_sources(${CMAKE_PROJECT_NAME}
-PUBLIC
+        PUBLIC
         FILE_SET cxx_modules TYPE CXX_MODULES FILES
-        # ${CMAKE_CURRENT_SOURCE_DIR}/gps_teseo_lib/callbackmanager/callbackmanager.cpp
-        # ${CMAKE_CURRENT_SOURCE_DIR}/gps_teseo_lib/teseo/teseo_iface.cpp
-        # ${CMAKE_CURRENT_SOURCE_DIR}/source/gps_nmea_lib/nmea/nmea_iface.cpp
+        # ${CMAKE_CURRENT_SOURCE_DIR}/source/gps_teseo_lib/callbackmanager/callbackmanager.cpp
+        # ${CMAKE_CURRENT_SOURCE_DIR}/source/gps_teseo_lib/teseo/teseo_iface.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/source/gps_nmea_lib/nmea/nmea_iface.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/test/gps_nmea_lib/test_module_iface.cpp
 )
 
 target_link_libraries( ${CMAKE_PROJECT_NAME}
-PUBLIC
-  GTest::gtest_main
+        GTest::gtest_main
 )
 
 include(GoogleTest)
