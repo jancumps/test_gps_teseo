@@ -25,6 +25,7 @@ target_sources(${CMAKE_PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/source/gps_teseo_lib/teseo/teseo.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/source/gps_nmea_lib/nmea/nmea.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/test/gps_nmea_lib/test_gps_nmea_lib.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/test/gps_teseo_lib/test_gps_teseo_lib.cpp
 )
 target_sources(${CMAKE_PROJECT_NAME}
         PUBLIC
@@ -36,6 +37,7 @@ target_sources(${CMAKE_PROJECT_NAME}
 
 target_link_libraries( ${CMAKE_PROJECT_NAME}
         GTest::gtest_main
+        GTest::gmock_main
 )
 
 include(GoogleTest)

@@ -32,7 +32,7 @@ TEST_F(gllTest, lon) {
 }
 
 TEST_F(gllTest, time) {
-    EXPECT_EQ((int)(o.t.hours().count()), 18) << "hours wrong";
+    EXPECT_EQ((int)(o.t.hours().count()), 18) << "hours wrong. expected: 18. got: " << (int)(o.t.hours().count());
     EXPECT_EQ((int)(o.t.minutes().count()), 54) << "minutes wrong";
     EXPECT_EQ((int)(o.t.seconds().count()), 27) << "seconds wrong";
     EXPECT_EQ((int)(o.t.subseconds().count()), 150) << "subseconds wrong";
