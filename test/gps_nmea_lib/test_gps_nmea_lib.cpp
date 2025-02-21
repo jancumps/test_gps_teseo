@@ -2,6 +2,8 @@
 #include <string>
 import nmea;
 
+// ==================================================================================
+// template for parameterised parser tests
 // generic fixture that allows to test any nmea parser class' parser function
 template <class T>
 class nmeaParsersTest : public ::testing::TestWithParam<std::tuple<std::string, bool>> {
@@ -43,16 +45,29 @@ INSTANTIATE_TEST_CASE_P(
     ::testing::Values(
         std::make_tuple("$XXXXXXXX", false), // invalid payload
         std::make_tuple("", false), // empty payload
-        std::make_tuple("$GPGGA,191237.000,5051.78066,N,00422.57079,E,1,05,3.7,027.26,M,47.3,M,,*65", true),
         std::make_tuple("$GPGGA,191237.000,5051.78066,N,00422.57079,E,1,05,3.7,027.26,M,47.3,M,,*65", true))
 );
 
+class gsaParserTest : public nmeaParsersTest<nmea::gsa> {};
 
+TEST_P(gsaParserTest, gsaparsetest) {
+    bool expected = std::get<1>(GetParam());
+    std::string s = std::get<0>(GetParam());
+    ASSERT_EQ(expected, o.from_data(s, o));
+}
 
+INSTANTIATE_TEST_CASE_P(
+    parsetest,
+    gsaParserTest,
+    ::testing::Values(
+        std::make_tuple("$XXXXXXXX", false), // invalid payload
+        std::make_tuple("", false), // empty payload
+        std::make_tuple("$GNGSA,A,3,15,18,,,,,,,,,,,4.7,3.7,2.9*2D", true),
+        std::make_tuple("$GNGSA,A,3,73,65,81,,,,,,,,,,4.7,3.7,2.9*2E", true))
+);
 
 
 // ==================================================================================
-
 // template for unit tests
 template <class T>
 class nmeaTest : public testing::Test {
@@ -96,4 +111,37 @@ TEST_F(gllTest, time) {
     EXPECT_EQ((int)(o.t.minutes().count()), 54) << "minutes wrong";
     EXPECT_EQ((int)(o.t.seconds().count()), 27) << "seconds wrong";
     EXPECT_EQ((int)(o.t.subseconds().count()), 150) << "subseconds wrong";
+}
+
+// unit test for gga parser
+class ggaTest : public nmeaTest<nmea::gga> {
+protected:
+    ggaTest() : parse_ok(false) {}
+    void SetUp() override {
+        parse_ok = o.from_data("$GPGGA,191237.000,5051.78066,N,00422.57079,E,1,05,3.7,027.26,M,47.3,M,,*65", o);
+    }
+    bool parse_ok;
+};
+    
+TEST_F(ggaTest, parse) {
+    EXPECT_TRUE(parse_ok) << "parse failed";
+}
+
+TEST_F(ggaTest, source) {
+    EXPECT_TRUE(o.source == nmea::talker_id::gps);
+}
+    
+TEST_F(ggaTest, lat) {
+    EXPECT_FLOAT_EQ(o.lat, 50.86301);
+}
+    
+TEST_F(ggaTest, lon) {
+    EXPECT_FLOAT_EQ(o.lon, 4.3761797);
+}
+ 
+TEST_F(ggaTest, time) {
+    EXPECT_EQ((int)(o.t.hours().count()), 19) << "hours wrong. expected: 18. got: " << (int)(o.t.hours().count());
+    EXPECT_EQ((int)(o.t.minutes().count()), 12) << "minutes wrong";
+    EXPECT_EQ((int)(o.t.seconds().count()), 37) << "seconds wrong";
+    EXPECT_EQ((int)(o.t.subseconds().count()), 0) << "subseconds wrong";
 }
