@@ -66,7 +66,6 @@ INSTANTIATE_TEST_CASE_P(
         std::make_tuple("$GNGSA,A,3,73,65,81,,,,,,,,,,4.7,3.7,2.9*2E", true))
 );
 
-
 // ==================================================================================
 // template for unit tests
 template <class T>
@@ -144,4 +143,16 @@ TEST_F(ggaTest, time) {
     EXPECT_EQ((int)(o.t.minutes().count()), 12) << "minutes wrong";
     EXPECT_EQ((int)(o.t.seconds().count()), 37) << "seconds wrong";
     EXPECT_EQ((int)(o.t.subseconds().count()), 0) << "subseconds wrong";
+}
+
+TEST_F(ggaTest, sats) {
+    EXPECT_EQ(o.sats, 5);
+}
+
+TEST_F(ggaTest, alt) {
+    EXPECT_FLOAT_EQ(o.alt, 27.2600002);
+}
+
+TEST_F(ggaTest, geosep) {
+    EXPECT_FLOAT_EQ(o.geosep, 47.2999992);
 }
