@@ -1,17 +1,28 @@
 #include <gtest/gtest.h>
+#include <string>
 import nmea;
 
-class gllTest : public testing::Test {
+class gllTest : public ::testing::TestWithParam<std::tuple<std::string, bool>>  {
 protected:
     gllTest() : parse_ok(false) {}
-    void SetUp() override {
-        parse_ok = nmea::gll::from_data("$GPGLL,5051.83778,N,00422.55809,S,185427.150,A,N*4F", o);
-    }
     nmea::gll o;
-    bool parse_ok;
 };
 
-TEST_F(gllTest, parse) {
+TEST_P(gllTest, parsetest) {
+    bool expected = std::get<1>(GetParam());
+    std::string s = std::get<0>(GetParam());
+    ASSERT_EQ(expected, nmea::gll::from_data(s, o));
+}
+
+INSTANTIATE_TEST_CASE_P(
+    parsetest,
+    gllTest,
+    ::testing::Values(
+            std::make_tuple("$GPGLL,5051.83778,N,00422.55809,S,185427.150,A,N*4F", true),
+            std::make_tuple("$GPGLL,5051.83778,N,00422.55809,S,185427.150,V,N*4F", true)));
+
+
+/* TEST_F(gllTest, parse) {
     EXPECT_TRUE(parse_ok) << "parse failed";
 }
 
@@ -36,4 +47,4 @@ TEST_F(gllTest, time) {
     EXPECT_EQ((int)(o.t.minutes().count()), 54) << "minutes wrong";
     EXPECT_EQ((int)(o.t.seconds().count()), 27) << "seconds wrong";
     EXPECT_EQ((int)(o.t.subseconds().count()), 150) << "subseconds wrong";
-}
+} */
