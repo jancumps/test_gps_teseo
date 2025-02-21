@@ -53,18 +53,24 @@ INSTANTIATE_TEST_CASE_P(
 
 // ==================================================================================
 
+// template for unit tests
+template <class T>
+class nmeaTest : public testing::Test {
+protected:
+    nmeaTest() {}
+    T o;
+};
+
 // unit test for gll parser
-class gllTest : public testing::Test {
+class gllTest : public nmeaTest<nmea::gll> {
 protected:
     gllTest() : parse_ok(false) {}
     void SetUp() override {
-        parse_ok = nmea::gll::from_data("$GPGLL,5051.83778,N,00422.55809,S,185427.150,A,N*4F", o);
+        parse_ok = o.from_data("$GPGLL,5051.83778,N,00422.55809,S,185427.150,A,N*4F", o);
     }
-    nmea::gll o;
     bool parse_ok;
 };
 
- 
 TEST_F(gllTest, parse) {
     EXPECT_TRUE(parse_ok) << "parse failed";
 }
