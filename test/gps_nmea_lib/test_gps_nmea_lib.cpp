@@ -149,6 +149,10 @@ TEST_F(ggaTest, sats) {
     EXPECT_EQ(o.sats, 5);
 }
 
+TEST_F(ggaTest, qual) {
+    EXPECT_EQ(o.qual, nmea::quality::q1);
+}
+
 TEST_F(ggaTest, alt) {
     EXPECT_FLOAT_EQ(o.alt, 27.2600002);
 }
