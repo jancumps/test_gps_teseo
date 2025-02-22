@@ -149,7 +149,7 @@ TEST_F(ggaTest, sats) {
 }
 
 TEST_F(ggaTest, qual) {
-    EXPECT_EQ(o.qual, nmea::quality::q1);
+    EXPECT_EQ(o.qual, nmea::quality::q2);
 }
 
 TEST_F(ggaTest, alt) {
