@@ -32,7 +32,6 @@ INSTANTIATE_TEST_CASE_P(
 
 class ggaParserTest : public nmeaParsersTest<nmea::gga> {};
 
-
 TEST_P(ggaParserTest, ggaparsetest) {
     bool expected = std::get<1>(GetParam());
     std::string s = std::get<0>(GetParam());
@@ -89,10 +88,6 @@ TEST_F(gllTest, parse) {
     EXPECT_TRUE(parse_ok) << "parse failed";
 }
     
-TEST_F(gllTest, valid) {
-    EXPECT_TRUE(o.valid);
-}
-    
 TEST_F(gllTest, source) {
     EXPECT_TRUE(o.source == nmea::talker_id::gps);
 }
@@ -112,6 +107,10 @@ TEST_F(gllTest, time) {
     EXPECT_EQ((int)(o.t.subseconds().count()), 150) << "subseconds wrong";
 }
 
+TEST_F(gllTest, valid) {
+    EXPECT_TRUE(o.valid);
+}
+    
 // unit test for gga parser
 class ggaTest : public nmeaTest<nmea::gga> {
 protected:
