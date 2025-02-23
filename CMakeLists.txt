@@ -8,7 +8,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fmodules-ts")
 set(CMAKE_EXE_LINKER_FLAGS "-Wl,-allow-multiple-definition")
 
-if( ${PATH_TO_LIBS} ) 
+if(DEFINED PATH_TO_LIBS)
 set(SOURCE_PATH ${PATH_TO_LIBS})
 else()
 set(SOURCE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/source)
