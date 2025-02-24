@@ -14,9 +14,9 @@ protected:
     }
     static void write(const std::string& s) {        
     }
-    static void read(std::string& s) {        
+    static void read(std::string& s) {
     }
-    static void reset() {        
+    static void reset() {
     }
     bool test_parse_multiline_reply(const teseo::nmea_rr& command) {
         return o.parse_multiline_reply(replies, reply, count, command);
