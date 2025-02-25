@@ -20,7 +20,7 @@ TEST_P(gllParserTest, gllparsetest) {
     ASSERT_EQ(expected, o.from_data(s, o));
 }
 
-INSTANTIATE_TEST_CASE_P(
+INSTANTIATE_TEST_SUITE_P(
     parsetest,
     gllParserTest,
     ::testing::Values(
@@ -38,7 +38,7 @@ TEST_P(ggaParserTest, ggaparsetest) {
     ASSERT_EQ(expected, o.from_data(s, o));
 }
 
-INSTANTIATE_TEST_CASE_P(
+INSTANTIATE_TEST_SUITE_P(
     parsetest,
     ggaParserTest,
     ::testing::Values(
@@ -55,7 +55,7 @@ TEST_P(gsaParserTest, gsaparsetest) {
     ASSERT_EQ(expected, o.from_data(s, o));
 }
 
-INSTANTIATE_TEST_CASE_P(
+INSTANTIATE_TEST_SUITE_P(
     parsetest,
     gsaParserTest,
     ::testing::Values(
