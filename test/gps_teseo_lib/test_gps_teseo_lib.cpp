@@ -46,7 +46,7 @@ TEST_F(teseoTest, parseSinglelineReply) {
 }
 
 TEST_F(teseoTest, callbacksSet) {
-    EXPECT_TRUE(o.writer().is_set());
+    EXPECT_FALSE(o.writer().is_set());
     EXPECT_TRUE(o.reader().is_set());
     EXPECT_TRUE(o.resetter().is_set());
 }
