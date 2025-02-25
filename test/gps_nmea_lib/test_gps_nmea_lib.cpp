@@ -2,14 +2,23 @@
 #include <string>
 import nmea;
 
+// generic template for NMEA parser unit tests
+// base class for all test fixtures, parameterized or not.
+template <class T>
+class nmeaTest : public testing::Test {
+protected:
+    nmeaTest() {}
+    T o;
+};
+
 // ==================================================================================
 // template for parameterised parser tests
 // generic fixture that allows to test any nmea parser class' parser function
+// with multiple data inputs
 template <class T>
-class nmeaParsersTest : public ::testing::TestWithParam<std::tuple<std::string, bool>> {
+class nmeaParsersTest : public nmeaTest<T>, public testing::WithParamInterface<std::tuple<std::string, bool>> {
 protected:
     nmeaParsersTest() {}
-    T o;
 };
 
 class gllParserTest : public nmeaParsersTest<nmea::gll> {};
@@ -21,7 +30,7 @@ TEST_P(gllParserTest, gllparsetest) {
 }
 
 INSTANTIATE_TEST_SUITE_P(
-    parsetest,
+    ,
     gllParserTest,
     ::testing::Values(
         std::make_tuple("$XXXXXXXX", false), // invalid payload
@@ -39,7 +48,7 @@ TEST_P(ggaParserTest, ggaparsetest) {
 }
 
 INSTANTIATE_TEST_SUITE_P(
-    parsetest,
+    ,
     ggaParserTest,
     ::testing::Values(
         std::make_tuple("$XXXXXXXX", false), // invalid payload
@@ -56,7 +65,7 @@ TEST_P(gsaParserTest, gsaparsetest) {
 }
 
 INSTANTIATE_TEST_SUITE_P(
-    parsetest,
+    ,
     gsaParserTest,
     ::testing::Values(
         std::make_tuple("$XXXXXXXX", false), // invalid payload
@@ -66,13 +75,6 @@ INSTANTIATE_TEST_SUITE_P(
 );
 
 // ==================================================================================
-// template for unit tests
-template <class T>
-class nmeaTest : public testing::Test {
-protected:
-    nmeaTest() {}
-    T o;
-};
 
 // unit test for gll parser
 class gllTest : public nmeaTest<nmea::gll> {
