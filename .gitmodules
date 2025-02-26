@@ -7,3 +7,6 @@
 [submodule "source/callbackmanager"]
 	path = source/callbackmanager
 	url = https://github.com/jancumps/callbackmanager
+[submodule "source/--force"]
+	path = source/--force
+	url = https://github.com/jancumps/callbackmanager
