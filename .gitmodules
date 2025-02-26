@@ -4,3 +4,6 @@
 [submodule "source/gps_teseo_lib"]
 	path = source/gps_teseo_lib
 	url = https://github.com/jancumps/gps_teseo_lib
+[submodule "source/callbackmanager"]
+	path = source/callbackmanager
+	url = https://github.com/jancumps/callbackmanager
