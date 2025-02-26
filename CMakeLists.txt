@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.28)
 
-project(test_class_module C CXX ASM)
+project(test_teseo_nmea C CXX ASM)
 
 # GoogleTest requires at least C++14
 set(CMAKE_CXX_STANDARD 26)
@@ -37,7 +37,7 @@ target_sources(${CMAKE_PROJECT_NAME}
 target_sources(${CMAKE_PROJECT_NAME}
         PUBLIC
         FILE_SET cxx_modules TYPE CXX_MODULES FILES
-        ${SOURCE_PATH}/gps_teseo_lib/callbackmanager/callbackmanager.cpp
+        ${SOURCE_PATH}/callbackmanager/callbackmanager.cpp
         ${SOURCE_PATH}/gps_teseo_lib/teseo/teseo_iface.cpp
         ${SOURCE_PATH}/gps_nmea_lib/nmea/nmea_iface.cpp
 )
