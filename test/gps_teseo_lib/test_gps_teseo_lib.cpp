@@ -12,9 +12,10 @@ protected:
         o.reader().set([](std::string& s) -> void { read(s); });
         o.resetter().set([]() -> void { reset(); });
     }
+
 #pragma GCC push_options
 #pragma GCC optimize("O0")        
-        static void write(const std::string& s) {        
+    static void write(const std::string& s) {        
     }
     static void read(std::string& s) {
     }
@@ -22,6 +23,7 @@ protected:
         EXPECT_TRUE(true);
     }
 #pragma GCC pop_options
+
     bool test_parse_multiline_reply(const teseo::nmea_rr& command) {
         return o.parse_multiline_reply(replies, reply, count, command);
     }
