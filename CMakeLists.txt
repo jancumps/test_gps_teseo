@@ -5,8 +5,8 @@ project(test_teseo_nmea C CXX ASM)
 # GoogleTest requires at least C++14
 set(CMAKE_CXX_STANDARD 26)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fmodules-ts")
-set(CMAKE_EXE_LINKER_FLAGS "-Wl,-allow-multiple-definition")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fmodules-ts -fcommon")
+# set(CMAKE_EXE_LINKER_FLAGS "-Wl,-allow-multiple-definition")
 
 if(DEFINED PATH_TO_LIBS)
 set(SOURCE_PATH ${PATH_TO_LIBS})
