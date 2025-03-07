@@ -7,14 +7,11 @@ const size_t NMEA_MAX_REPLIES = 7;
 class teseoTest : public testing::Test {
 protected:
     teseoTest() : count(0) {}
-#pragma GCC push_options
-#pragma GCC optimize("O0")
     void SetUp() override {
         o.writer().set([](const std::string& s) -> void { write(s); });
         o.reader().set([](std::string& s) -> void { read(s); });
         o.resetter().set([]() -> void { reset(); });
     }
-#pragma GCC pop_options
     
     static void write(const std::string& s) {        
     }
