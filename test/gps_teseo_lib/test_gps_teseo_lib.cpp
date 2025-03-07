@@ -6,19 +6,19 @@ const size_t NMEA_MAX_REPLIES = 7;
 
 class teseoTest : public testing::Test {
 protected:
-    teseoTest() : count(0) {}
+    teseoTest() : count(0), is_reset_called(false) {}
     void SetUp() override {
         o.writer().set([](const std::string& s) -> void { write(s); });
         o.reader().set([](std::string& s) -> void { read(s); });
-        o.resetter().set([]() -> void { reset(); });
+        o.resetter().set([this]() -> void { reset(); });
     }
     
     static void write(const std::string& s) {        
     }
     static void read(std::string& s) {
     }
-    static void reset() {
-        EXPECT_TRUE(true);
+    void reset() {
+        is_reset_called = true;;
     }
 
     bool test_parse_multiline_reply(const teseo::nmea_rr& command) {
@@ -29,6 +29,7 @@ protected:
     std::string reply;
     std::array<std::string, NMEA_MAX_REPLIES> replies;
     unsigned int count;
+    bool is_reset_called;
 };
 
 TEST_F(teseoTest, parseMultilineReply) {
@@ -55,5 +56,7 @@ TEST_F(teseoTest, callbacksSet) {
 }
 
 TEST_F(teseoTest, callbacksExecute) {
+    EXPECT_FALSE(is_reset_called);
     o.resetter().call();
+    EXPECT_TRUE(is_reset_called);
 }
