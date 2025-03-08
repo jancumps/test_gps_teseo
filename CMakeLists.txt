@@ -9,7 +9,6 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fmodules-ts -fcommon")
 set(CMAKE_EXE_LINKER_FLAGS "-Wl,-allow-multiple-definition")
 
 include(FetchContent)
-include(ExternalProject)
 
 FetchContent_Declare(
   googletest
@@ -19,41 +18,44 @@ FetchContent_Declare(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
+if(DEFINED PATH_TO_LIBS)
+
+set(callbackmanager_PATH ${PATH_TO_LIBS}/callbackmanager)
+set(gps_teseo_lib_PATH ${PATH_TO_LIBS}/gps_teseo_lib)
+set(gps_nmea_lib_PATH ${PATH_TO_LIBS}/gps_nmea_lib)
+
+else()
+
 FetchContent_Declare(callbackmanager
   GIT_REPOSITORY "https://github.com/jancumps/callbackmanager.git"
-  GIT_TAG "origin/main"   # it's much better to use a specific Git revision or Git tag for reproducibility
+  GIT_TAG "origin/main"
   SOURCE_SUBDIR =
 )
 FetchContent_MakeAvailable(callbackmanager)
 
 FetchContent_Declare(gps_teseo_lib
   GIT_REPOSITORY "https://github.com/jancumps/gps_teseo_lib.git"
-  GIT_TAG "origin/main"   # it's much better to use a specific Git revision or Git tag for reproducibility
+  GIT_TAG "origin/main"
   SOURCE_SUBDIR =
 )
 FetchContent_MakeAvailable(gps_teseo_lib)
 
 FetchContent_Declare(gps_nmea_lib
   GIT_REPOSITORY "https://github.com/jancumps/gps_nmea_lib.git"
-  GIT_TAG "origin/main"   # it's much better to use a specific Git revision or Git tag for reproducibility
+  GIT_TAG "origin/main"
   SOURCE_SUBDIR =
 )
 FetchContent_MakeAvailable(gps_nmea_lib)
 
-if(DEFINED PATH_TO_LIBS)
-set(callbackmanager_PATH ${PATH_TO_LIBS}/callbackmanager)
-set(gps_teseo_lib_PATH ${PATH_TO_LIBS}/gps_teseo_lib)
-set(gps_nmea_lib_PATH ${PATH_TO_LIBS}/gps_nmea_lib)
-else()
 set(callbackmanager_PATH ${callbackmanager_SOURCE_DIR})
 set(gps_teseo_lib_PATH ${gps_teseo_lib_SOURCE_DIR})
 set(gps_nmea_lib_PATH ${gps_nmea_lib_SOURCE_DIR})
+
 endif()
+
 message("callbackmanager source path: " ${callbackmanager_PATH})
 message("gps_teseo_lib source path: " ${gps_teseo_lib_PATH})
 message("gps_nmea_lib source path: " ${gps_nmea_lib_PATH})
-
-
 
 enable_testing()
 
