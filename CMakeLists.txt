@@ -8,14 +8,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fmodules-ts -fcommon")
 set(CMAKE_EXE_LINKER_FLAGS "-Wl,-allow-multiple-definition")
 
-if(DEFINED PATH_TO_LIBS)
-set(SOURCE_PATH ${PATH_TO_LIBS})
-else()
-set(SOURCE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/source)
-endif()
-message("library source path=" ${SOURCE_PATH})
-
 include(FetchContent)
+include(ExternalProject)
+
 FetchContent_Declare(
   googletest
   URL https://github.com/google/googletest/archive/03597a01ee50ed33e9dfd640b249b4be3799d395.zip
@@ -24,23 +19,59 @@ FetchContent_Declare(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
+FetchContent_Declare(callbackmanager
+  GIT_REPOSITORY "https://github.com/jancumps/callbackmanager.git"
+  GIT_TAG "origin/main"   # it's much better to use a specific Git revision or Git tag for reproducibility
+  SOURCE_SUBDIR =
+)
+FetchContent_MakeAvailable(callbackmanager)
+
+FetchContent_Declare(gps_teseo_lib
+  GIT_REPOSITORY "https://github.com/jancumps/gps_teseo_lib.git"
+  GIT_TAG "origin/main"   # it's much better to use a specific Git revision or Git tag for reproducibility
+  SOURCE_SUBDIR =
+)
+FetchContent_MakeAvailable(gps_teseo_lib)
+
+FetchContent_Declare(gps_nmea_lib
+  GIT_REPOSITORY "https://github.com/jancumps/gps_nmea_lib.git"
+  GIT_TAG "origin/main"   # it's much better to use a specific Git revision or Git tag for reproducibility
+  SOURCE_SUBDIR =
+)
+FetchContent_MakeAvailable(gps_nmea_lib)
+
+if(DEFINED PATH_TO_LIBS)
+set(callbackmanager_PATH ${PATH_TO_LIBS}/callbackmanager)
+set(gps_teseo_lib_PATH ${PATH_TO_LIBS}/gps_teseo_lib)
+set(gps_nmea_lib_PATH ${PATH_TO_LIBS}/gps_nmea_lib)
+else()
+set(callbackmanager_PATH ${callbackmanager_SOURCE_DIR})
+set(gps_teseo_lib_PATH ${gps_teseo_lib_SOURCE_DIR})
+set(gps_nmea_lib_PATH ${gps_nmea_lib_SOURCE_DIR})
+endif()
+message("callbackmanager source path: " ${callbackmanager_PATH})
+message("gps_teseo_lib source path: " ${gps_teseo_lib_PATH})
+message("gps_nmea_lib source path: " ${gps_nmea_lib_PATH})
+
+
+
 enable_testing()
 
 add_executable(${CMAKE_PROJECT_NAME})
 target_sources(${CMAKE_PROJECT_NAME}
         PUBLIC
-        ${SOURCE_PATH}/gps_teseo_lib/teseo/teseo.cpp
-        ${SOURCE_PATH}/gps_nmea_lib/nmea/nmea.cpp
-        ${SOURCE_PATH}/gps_nmea_lib/test/test_gps_nmea_lib.cpp
-        ${SOURCE_PATH}/gps_teseo_lib/test/test_gps_teseo_lib.cpp
-        ${SOURCE_PATH}/callbackmanager/test/callbackmanager_test.cpp
+        ${gps_teseo_lib_PATH}/teseo/teseo.cpp
+        ${gps_nmea_lib_PATH}/nmea/nmea.cpp
+        ${gps_nmea_lib_PATH}/test/test_gps_nmea_lib.cpp
+        ${gps_teseo_lib_PATH}/test/test_gps_teseo_lib.cpp
+        ${callbackmanager_PATH}/test/callbackmanager_test.cpp
 )
 target_sources(${CMAKE_PROJECT_NAME}
         PUBLIC
         FILE_SET cxx_modules TYPE CXX_MODULES FILES
-        ${SOURCE_PATH}/callbackmanager/callbackmanager.cpp
-        ${SOURCE_PATH}/gps_teseo_lib/teseo/teseo_iface.cpp
-        ${SOURCE_PATH}/gps_nmea_lib/nmea/nmea_iface.cpp
+        ${callbackmanager_PATH}/callbackmanager.cpp
+        ${gps_teseo_lib_PATH}/teseo/teseo_iface.cpp
+        ${gps_nmea_lib_PATH}/nmea/nmea_iface.cpp
 )
 
 target_link_libraries( ${CMAKE_PROJECT_NAME}
