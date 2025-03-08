@@ -31,7 +31,7 @@ target_sources(${CMAKE_PROJECT_NAME}
         PUBLIC
         ${SOURCE_PATH}/gps_teseo_lib/teseo/teseo.cpp
         ${SOURCE_PATH}/gps_nmea_lib/nmea/nmea.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/test/gps_nmea_lib/test_gps_nmea_lib.cpp
+        ${SOURCE_PATH}/gps_nmea_lib/test/test_gps_nmea_lib.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/test/gps_teseo_lib/test_gps_teseo_lib.cpp
         ${SOURCE_PATH}/callbackmanager/test/callbackmanager_test.cpp
 )
