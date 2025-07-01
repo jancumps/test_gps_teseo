@@ -21,9 +21,9 @@ FetchContent_MakeAvailable(googletest)
 
 if(DEFINED PATH_TO_LIBS)
 
-set(callbackmanager_PATH ${PATH_TO_LIBS}/callbackmanager)
-set(gps_teseo_lib_PATH ${PATH_TO_LIBS}/gps_teseo_lib)
-set(gps_nmea_lib_PATH ${PATH_TO_LIBS}/gps_nmea_lib)
+set(callbackmanager_PATH ${PATH_TO_LIBS}/callbackmanager-src)
+set(gps_teseo_lib_PATH ${PATH_TO_LIBS}/gps_teseo_lib-src)
+set(gps_nmea_lib_PATH ${PATH_TO_LIBS}/gps_nmea_lib-src)
 
 else()
 
