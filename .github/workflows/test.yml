@@ -29,6 +29,9 @@ jobs:
 
       - name: Install dependencies
         run: |
+          sudo apt update && sudo apt upgrade && sudo apt dist-upgrade
+          sudo do-release-upgrade -f DistUpgradeViewNonInteractive
+          
           sudo apt-get install ninja-build
 
           sudo apt-get install cmake
