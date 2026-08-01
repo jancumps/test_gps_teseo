@@ -13,7 +13,7 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     steps:
       - name: Clean workspace
         run: |
@@ -36,24 +36,24 @@ jobs:
           sudo add-apt-repository universe
           sudo apt update
 
-          # sudo apt install gcc-15
-          echo install gcc 15
-          sudo apt install -y build-essential git make gawk flex bison libgmp-dev libmpfr-dev libmpc-dev python3 binutils perl libisl-dev libzstd-dev tar gzip bzip2
-          export CONFIG_SHELL=/bin/bash
-          mkdir ~/gcc-15
-          cd ~/gcc-15
-          git clone https://gcc.gnu.org/git/gcc.git gcc-15-source
-          cd gcc-15-source
-          git checkout releases/gcc-15.2.0
-          ./contrib/download_prerequisites
-          cd ~/gcc-15
-          mkdir gcc-15-build
-          cd gcc-15-build
-          ../gcc-15-source/configure --prefix=/opt/gcc-15 --disable-multilib --enable-languages=c,c++
-          make -j$(nproc)
-          sudo make install
-          sudo update-alternatives --install /usr/bin/gcc gcc /opt/gcc-15/bin/gcc 100
-          sudo update-alternatives --install /usr/bin/g++ g++ /opt/gcc-15/bin/g++ 100
+          sudo apt install gcc-15
+          # echo install gcc 15
+          # sudo apt install -y build-essential git make gawk flex bison libgmp-dev libmpfr-dev libmpc-dev python3 binutils perl libisl-dev libzstd-dev tar gzip bzip2
+          # export CONFIG_SHELL=/bin/bash
+          # mkdir ~/gcc-15
+          # cd ~/gcc-15
+          # git clone https://gcc.gnu.org/git/gcc.git gcc-15-source
+          # cd gcc-15-source
+          # git checkout releases/gcc-15.2.0
+          # ./contrib/download_prerequisites
+          # cd ~/gcc-15
+          # mkdir gcc-15-build
+          # cd gcc-15-build
+          # ../gcc-15-source/configure --prefix=/opt/gcc-15 --disable-multilib --enable-languages=c,c++
+          # make -j$(nproc)
+          # sudo make install
+          # sudo update-alternatives --install /usr/bin/gcc gcc /opt/gcc-15/bin/gcc 100
+          # sudo update-alternatives --install /usr/bin/g++ g++ /opt/gcc-15/bin/g++ 100
 
           gcc --version
           whereis gcc
